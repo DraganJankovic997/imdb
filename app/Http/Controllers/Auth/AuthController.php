@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Auth;
 
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
@@ -22,7 +24,7 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function login()
+    public function login(Request $request)
     {
 
         $validator = Validator::make($request->all(), [
