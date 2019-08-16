@@ -66,8 +66,7 @@ class RegisterController extends Controller
     {
         $val = $this->validator($request);
         if($val->fails()) {
-            Session::flash('error', $validator->messages()->first());
-            return redirect()->back()->withInput();
+            return $val->messages();
         } else {
             return User::create([
                 'name' => request('name'),
