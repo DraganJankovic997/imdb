@@ -37,7 +37,7 @@ class MovieController extends Controller
      */
     public function show($id)
     {
-        //
+        return Movie::findOrFail($id);
     }
 
     /**
