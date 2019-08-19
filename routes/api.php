@@ -23,6 +23,6 @@ Route::group([
     Route::post('me', 'Auth\AuthController@me');
     Route::post('register', 'Auth\RegisterController@create');
 });
-
+Route::post('viewmoviepage/{id}', 'Api\MovieController@viewed');
 Route::get('/genres', 'GenreController@getAll');
 Route::apiResource('movies', 'Api\MovieController');

@@ -26,45 +26,31 @@ class MovieController extends Controller
      */
     public function store(Request $request)
     {
-        // $movie = [];
-        // $movie['title'] = $request->input('title');
-        // $movie['description'] = $request->input('description');
-        // $movie['image_url'] = $request->input('image_id');
-        // $movie['genre_id'] = $request->input('genre_id');
         return Movie::create($request->all());
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         return Movie::with('genre')->findOrFail($id);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
+    {
+        $movie = Movie::findOrFail($id);
+        $movie->update($request->all());
+        return $movie;
+    }
+
+    public function destroy($id)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+    public function viewed($id)
     {
-        //
+        $movie = Movie::findOrFail($id);
+        $movie->views = $movie->views + 1;
+        $movie->update();
+        return $movie;
     }
 }

@@ -19,6 +19,7 @@ class CreateMoviesTable extends Migration
             $table->text('description');
             $table->string('image_url');
             $table->timestamps();
+            $table->bigInteger('views');
         });
     }
 
@@ -29,6 +30,7 @@ class CreateMoviesTable extends Migration
      */
     public function down()
     {
+        Schema::dropIfExists('reactions');
         Schema::dropIfExists('movies');
     }
 }
