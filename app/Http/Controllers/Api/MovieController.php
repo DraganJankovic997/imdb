@@ -15,7 +15,7 @@ class MovieController extends Controller
      */
     public function index()
     {
-        return Movie::paginate(10);
+        return Movie::with('genre')->paginate(10);
     }
 
     /**
@@ -26,7 +26,12 @@ class MovieController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // $movie = [];
+        // $movie['title'] = $request->input('title');
+        // $movie['description'] = $request->input('description');
+        // $movie['image_url'] = $request->input('image_id');
+        // $movie['genre_id'] = $request->input('genre_id');
+        return Movie::create($request->all());
     }
 
     /**
@@ -37,7 +42,7 @@ class MovieController extends Controller
      */
     public function show($id)
     {
-        return Movie::findOrFail($id);
+        return Movie::with('genre')->findOrFail($id);
     }
 
     /**
