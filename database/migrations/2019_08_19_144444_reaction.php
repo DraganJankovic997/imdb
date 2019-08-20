@@ -25,6 +25,7 @@ class Reaction extends Migration
             $table->foreign('emote_id')
                 ->references('id')
                 ->on('emotes');
+            $table->unique(['movie_id', 'user_id']);
         });
     }
     public function down()

@@ -12,7 +12,11 @@ class GenresTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(Genre::class, 10)->create();
+        foreach(Genre::GENRES as $val){
+            Genre::insert([
+                'name' => $val
+            ]);
+        }
     }
 }
 

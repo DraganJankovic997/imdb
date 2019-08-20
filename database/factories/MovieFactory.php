@@ -18,7 +18,7 @@ $factory->define(App\Movie::class, function (Faker $faker) {
         'title' => $faker->words(2, true),
         'description' => $faker->paragraph(10, true),
         'image_url' => $faker->imageUrl(640, 480),
-        'genre_id'=>$faker->numberBetween(1, 10),
+        'genre_id'=>$faker->numberBetween(1, 7),
         'views'=> $faker->numberBetween(20, 40),
     ];
 });

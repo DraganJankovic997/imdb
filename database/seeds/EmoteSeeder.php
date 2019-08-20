@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use App\Emote;
 
 class EmoteSeeder extends Seeder
 {
@@ -11,6 +12,10 @@ class EmoteSeeder extends Seeder
      */
     public function run()
     {
-        //
+       foreach(Emote::EMOTES as $value) {
+           Emote::insert([
+            'name' => $value
+           ]);
+       }
     }
 }
