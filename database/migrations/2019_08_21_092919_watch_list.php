@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CommentMigration extends Migration
+class WatchList extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,11 @@ class CommentMigration extends Migration
      */
     public function up()
     {
-        Schema::create('comments', function (Blueprint $table) {
-            $table->increments('id');
+        Schema::create('watch_lists', function (Blueprint $table) {
             $table->integer('movie_id')->unsigned();
             $table->integer('user_id')->unsigned();
-            $table->string('content', 500);
         });
-        Schema::table('comments', function(Blueprint $table) {
+        Schema::table('watch_lists', function(Blueprint $table) {
             $table->foreign('movie_id')
             ->references('id')
             ->on('movies')
@@ -28,6 +26,7 @@ class CommentMigration extends Migration
             ->references('id')
             ->on('users')
             ->onDelete('cascade');
+            $table->unique(['movie_id', 'user_id']);
         });
     }
 
@@ -37,9 +36,11 @@ class CommentMigration extends Migration
      * @return void
      */
     public function down()
-    {
-        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
-        Schema::dropIfExists('comments');
-        DB::statement('SET FOREIGN_KEY_CHECKS = 1');
+    {   
+        Schema::table('watch_lists', function (Blueprint $table) {
+            $table->dropForeign('watch_lists_movie_id_foreign');
+            $table->dropColumn('movie_id');
+        });
+        Schema::dropIfExists('watch_lists');
     }
 }

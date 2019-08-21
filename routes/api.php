@@ -34,3 +34,6 @@ Route::apiResource('movies', 'Api\MovieController');
 
 Route::get('/comments/{id}', 'CommentController@getComments');
 Route::post('/comments/{id}', 'CommentController@addComment');
+
+Route::get('/watched/{id}', 'WatchListController@isWatched');
+Route::post('/watched/{id}', 'WatchListController@watched');
