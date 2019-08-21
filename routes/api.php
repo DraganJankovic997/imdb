@@ -31,3 +31,6 @@ Route::get('react/{id}', 'ReactionsController@reactions');
 
 Route::get('/genres', 'GenreController@getAll');
 Route::apiResource('movies', 'Api\MovieController');
+
+Route::get('/comments/{id}', 'CommentController@getComments');
+Route::post('/comments/{id}', 'CommentController@addComment');
