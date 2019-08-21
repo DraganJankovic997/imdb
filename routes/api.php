@@ -39,3 +39,6 @@ Route::post('/comments/{id}', 'CommentController@addComment');
 Route::get('/watched/{id}', 'WatchListController@isWatched');
 Route::post('/watched/{id}', 'WatchListController@watched');
 Route::get('/watchedPage/{id}', 'WatchListController@watchedPage');
+
+Route::get('/popular', 'WatchListController@popular');
+ROute::get('/related/{id}', 'WatchListController@related');

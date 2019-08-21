@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\WatchList;
+use App\Movie;
 
 class WatchListController extends Controller
 {
@@ -77,11 +78,13 @@ class WatchListController extends Controller
 
     public function popular()
     {
-
+        return Movie::orderBy('views', 'desc')
+            ->take(10)
+            ->get();
     }
 
     public function related($id) 
     {
-        
+         
     }
 }
