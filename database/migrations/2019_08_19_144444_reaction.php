@@ -12,6 +12,7 @@ class Reaction extends Migration
             $table->integer('movie_id')->unsigned();
             $table->integer('user_id')->unsigned();
             $table->integer('emote_id')->unsigned();
+            $table->primary(['movie_id', 'user_id']);
         });
         Schema::table('reactions', function(Blueprint $table) {
             $table->foreign('movie_id')
@@ -30,10 +31,6 @@ class Reaction extends Migration
     }
     public function down()
     {
-        Schema::table('reactions', function (Blueprint $table) {
-            $table->dropForeign('reactions_emote_id_foreign');
-            $table->dropColumn('emote_id');
-        });
         Schema::dropIfExists('reactions');
     }
 }

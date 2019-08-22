@@ -7,6 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 class Comment extends Model
 {
     public $timestamps = false;
-    protected $fillable = ['movie_id', 'user_id', 'content'];
+    protected $guarded = ['id'];
+
+    public function movie(){
+        return $this->belongsTo('App\Movie');
+    }
+
+    public function user() {
+        return $this->belongsTo('App\User');
+    }
 
 }

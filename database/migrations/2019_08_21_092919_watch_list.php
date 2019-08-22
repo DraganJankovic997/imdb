@@ -37,10 +37,6 @@ class WatchList extends Migration
      */
     public function down()
     {   
-        Schema::table('watch_lists', function (Blueprint $table) {
-            $table->dropForeign('watch_lists_movie_id_foreign');
-            $table->dropColumn('movie_id');
-        });
         Schema::dropIfExists('watch_lists');
     }
 }

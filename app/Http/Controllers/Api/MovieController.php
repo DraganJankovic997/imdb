@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Requests\CreateMovie;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Controller;
 use App\Movie;
 
@@ -15,7 +17,11 @@ class MovieController extends Controller
      */
     public function index()
     {
-        return Movie::with('genre')->paginate(10);
+        $movies = Movie::with('genre') -> paginate(10);
+        foreach($movies as $movie) {
+            $movie['emotesCount'] = $movie->countEmotes() ;
+        }
+        return $movies;
     }
 
     /**
@@ -24,14 +30,16 @@ class MovieController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateMovie $request)
     {
-        return Movie::create($request->all());
+        return Movie::create($request->validated());
     }
 
     public function show($id)
     {
-        return Movie::with('genre')->findOrFail($id);
+        $movie = Movie::with('genre') ->findOrFail($id);
+        $movie->increment('views');
+        return $movie;
     }
 
     public function update(Request $request, $id)
@@ -44,13 +52,5 @@ class MovieController extends Controller
     public function destroy($id)
     {
         //
-    }
-
-    public function viewed($id)
-    {
-        $movie = Movie::findOrFail($id);
-        $movie->views = $movie->views + 1;
-        $movie->update();
-        return $movie;
     }
 }

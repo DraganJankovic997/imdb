@@ -6,8 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Reaction extends Model
 {
-    protected $fillable = ['movie_id', 'user_id', 'emote_id'];
+    protected $guarded = [];
     public $timestamps = false;
+
+    protected $primaryKey = 'movie_id';
 
     public function emote(){
         return $this->belongsTo('App\Emote');
