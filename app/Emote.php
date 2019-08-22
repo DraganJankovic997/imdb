@@ -13,6 +13,9 @@ class Emote extends Model
     }
 
     public function countLikes($movie_id) {
-        return $this->belongsToMany('App\Movie', 'reactions')->where('id', $movie_id)->count();
+        return $this
+            ->belongsToMany('App\Movie', 'reactions')
+            ->where('movie_id', $movie_id)
+            ->count();
     }
 }

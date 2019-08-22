@@ -9,7 +9,7 @@ class Reaction extends Model
     protected $guarded = ['id'];
     public $timestamps = false;
 
-    protected $primaryKey = 'movie_id';
+    protected $primaryKey = 'id';
 
     public function emote(){
         return $this->belongsTo('App\Emote');
