@@ -9,10 +9,10 @@ class Reaction extends Migration
     public function up()
     {
         Schema::create('reactions', function (Blueprint $table) {
+            $table->increments('id');
             $table->integer('movie_id')->unsigned();
             $table->integer('user_id')->unsigned();
             $table->integer('emote_id')->unsigned();
-            $table->primary(['movie_id', 'user_id']);
         });
         Schema::table('reactions', function(Blueprint $table) {
             $table->foreign('movie_id')

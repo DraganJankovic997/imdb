@@ -37,7 +37,7 @@ class MovieController extends Controller
 
     public function show($id)
     {
-        $movie = Movie::with('genre') ->findOrFail($id);
+        $movie = Movie::with('genre')->findOrFail($id);
         $movie->increment('views');
         return $movie;
     }

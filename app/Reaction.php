@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Reaction extends Model
 {
-    protected $guarded = [];
+    protected $guarded = ['id'];
     public $timestamps = false;
 
     protected $primaryKey = 'movie_id';

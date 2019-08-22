@@ -7,6 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class WatchList extends Model
 {
     public $timestamps = false;
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
 }
