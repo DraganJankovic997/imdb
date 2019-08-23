@@ -6,11 +6,29 @@ use Illuminate\Database\Eloquent\Model;
 
 class Movie extends Model
 {
+
+    protected $guarded = ['id'];
+
     public function genre()
     {
-        return $this->hasOne('App\Genre', 'id', 'genre_id');
+        return $this->belongsTo('App\Genre', 'genre_id', 'id');
     }
 
-    protected $fillable = ['title', 'description', 'image_url', 'genre_id'];
+    public function emotes()
+    {
+        return $this->belongsToMany('App\Emote', 'reactions');
+    }
+    public function countEmotes()
+    {
+        $counted = [];
+        foreach(Emote::all() as $emote) {
+            $counted[$emote->name] = $emote->countLikes($this->id);
+            // array_push($counted, [ $emote->name => $emote->countLikes($this->id) ]);
+        }
+        return $counted;
+    }
+    public function comments() {
+        return $this->hasMany('App\Comment');
+    }
 
 }

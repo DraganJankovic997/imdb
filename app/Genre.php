@@ -6,11 +6,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class Genre extends Model
 {
-    const GENRES=['Action', 'Adventure', 'Sports', 'Comedy', 'Horror', 'Documentary', 'Thriller'];
+    const GENRE_ACTION = 'Action';
+    const GENRE_ADVENTURE = 'Adventure';
+    const GENRE_SPORTS = 'Sports';
+    const GENRE_COMEDY = 'Comedy';
+    const GENRE_HORROR = 'Horror';
+    const GENRE_DOCUMENTARY = 'Documentary';
+    const GENRE_THRILLER = 'Thriller';
 
     public $timestamps = false;
 
-    public function genre() {
-        return $this->belongsTo('App\Genre');
+    public function movies() {
+        return $this->hasMany('App\Movie');
     }
 }

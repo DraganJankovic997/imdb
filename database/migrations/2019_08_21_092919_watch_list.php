@@ -4,17 +4,21 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class Reaction extends Migration
+class WatchList extends Migration
 {
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
     public function up()
     {
-        Schema::create('reactions', function (Blueprint $table) {
+        Schema::create('watch_lists', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('movie_id')->unsigned();
             $table->integer('user_id')->unsigned();
-            $table->integer('emote_id')->unsigned();
         });
-        Schema::table('reactions', function(Blueprint $table) {
+        Schema::table('watch_lists', function(Blueprint $table) {
             $table->foreign('movie_id')
             ->references('id')
             ->on('movies')
@@ -23,14 +27,17 @@ class Reaction extends Migration
             ->references('id')
             ->on('users')
             ->onDelete('cascade');
-            $table->foreign('emote_id')
-                ->references('id')
-                ->on('emotes');
             $table->unique(['movie_id', 'user_id']);
         });
     }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
     public function down()
-    {
-        Schema::dropIfExists('reactions');
+    {   
+        Schema::dropIfExists('watch_lists');
     }
 }
