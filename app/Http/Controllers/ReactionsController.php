@@ -13,13 +13,10 @@ class ReactionsController extends Controller
 {
     public function react(Request $request)
     {
-        $data = array_merge(['user_id' => Auth::id()], $request->all());
-        $old = Reaction::where('user_id', $data['user_id'])->where('movie_id', $data['movie_id'])->first();
-        if( $old === null) {
-            return Reaction::create($data);
-        } else {
-            return 'You already rated this movie';
-        }
+        return Reaction::updateOrCreate(
+            ['user_id' => Auth::id(), 'movie_id' => $request->input('movie_id')],
+            ['emote_id' => $request->input('emote_id')]
+        );
     }
 
     public function reactions($id)

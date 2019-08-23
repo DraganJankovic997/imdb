@@ -24,8 +24,6 @@ Route::group([
     Route::post('register', 'Auth\RegisterController@create');
 });
 
-Route::post('viewmoviepage/{id}', 'Api\MovieController@viewed');
-
 Route::post('react', 'ReactionsController@react');
 Route::get('react/{id}', 'ReactionsController@reactions');
 Route::get('reactPage/{id}', 'ReactionsController@reactionsPage');

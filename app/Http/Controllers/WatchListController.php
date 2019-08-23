@@ -51,29 +51,17 @@ class WatchListController extends Controller
 
     public function watchedPage($id){
         $movie_array = range( ($id-1)*10 + 1, ($id*10) );
-        $final_array = [];
-        foreach($movie_array as $movie_id) {
-            $b;
+        $movie_array = array_map(function($x) {
             $temp = WatchList::where([
-                ['movie_id', $movie_id],
+                ['movie_id', $x],
                 ['user_id', Auth::id()],
                 ])->first();
-    
-            if($temp == null) 
-            {
-                $b = false;
-            }
-            else 
-            {
-                $b = true;
-            }
-            $final_array[] = [
-                'movie_id' => $movie_id,
-                'watched' => $b
+            return [
+                'movie_id' => $x,
+                'watched' => ($temp != null) ? true : false
             ];
-        }
-        
-        return $final_array;
+        }, $movie_array);
+        return $movie_array;
     }
 
     public function popular()
