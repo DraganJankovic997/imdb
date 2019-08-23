@@ -24,4 +24,19 @@ Route::group([
     Route::post('register', 'Auth\RegisterController@create');
 });
 
+Route::post('react', 'ReactionsController@react');
+Route::get('react/{id}', 'ReactionsController@reactions');
+Route::get('reactPage/{id}', 'ReactionsController@reactionsPage');
+
+Route::get('/genres', 'GenreController@getAll');
 Route::apiResource('movies', 'Api\MovieController');
+
+Route::get('/comments/{id}', 'CommentController@getComments');
+Route::post('/comments/{id}', 'CommentController@addComment');
+
+Route::get('/watched/{id}', 'WatchListController@isWatched');
+Route::post('/watched/{id}', 'WatchListController@watched');
+Route::get('/watchedPage/{id}', 'WatchListController@watchedPage');
+
+Route::get('/popular', 'WatchListController@popular');
+ROute::get('/related/{id}', 'WatchListController@related');
