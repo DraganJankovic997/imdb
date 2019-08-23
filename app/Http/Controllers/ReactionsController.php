@@ -13,9 +13,10 @@ class ReactionsController extends Controller
 {
     public function react(Request $request)
     {
+        $emote_id = Emote::where('name', $request->input('emote_name'))->first()->id;
         return Reaction::updateOrCreate(
             ['user_id' => Auth::id(), 'movie_id' => $request->input('movie_id')],
-            ['emote_id' => $request->input('emote_id')]
+            ['emote_id' => $emote_id]
         );
     }
 
