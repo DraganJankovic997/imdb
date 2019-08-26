@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Movie extends Model
 {
@@ -29,6 +30,11 @@ class Movie extends Model
     }
     public function comments() {
         return $this->hasMany('App\Comment');
+    }
+    public function didWatch(){
+        return WatchList::where('movie_id', $this->id)
+            ->where('user_id', Auth::id())
+            ->first();
     }
 
 }

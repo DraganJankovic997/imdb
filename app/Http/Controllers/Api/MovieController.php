@@ -20,7 +20,11 @@ class MovieController extends Controller
         $movies = Movie::with('genre') -> paginate(10);
         foreach($movies as $movie) {
             $movie['emotesCount'] = $movie->countEmotes();
-
+            if($movie->didWatch()) {
+                $movie['watched'] = true;
+            } else {
+                $movie['watched'] = false;
+            }
         }
         return $movies;
     }
@@ -41,6 +45,11 @@ class MovieController extends Controller
         $movie = Movie::with('genre')->findOrFail($id);
         $movie->increment('views');
         $movie['emotesCount'] = $movie->countEmotes();
+        if($movie->didWatch()) {
+            $movie['watched'] = true;
+        } else {
+            $movie['watched'] = false;
+        }
         return $movie;
     }
 
