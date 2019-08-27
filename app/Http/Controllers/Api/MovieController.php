@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Controller;
 use App\Movie;
 
+
 class MovieController extends Controller
 {
     /**
