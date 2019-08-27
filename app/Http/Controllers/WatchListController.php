@@ -15,19 +15,20 @@ class WatchListController extends Controller
         $temp = WatchList::where([
             ['movie_id', $id],
             ['user_id', Auth::id()],
-        ])->first();
+        ])->exists();
 
-        if($temp == null) 
+        if($temp->exists) 
         {
-            return WatchList::create([
-                'movie_id' => $id,
-                'user_id' => Auth::id()
-            ]);
+            return WatchList::where([
+                ['movie_id', $id],
+                ['user_id', Auth::id()],
+            ])->delete();
         }
-        return WatchList::where([
-            ['movie_id', $id],
-            ['user_id', Auth::id()],
-        ])->delete();
+        return WatchList::create([
+            'movie_id' => $id,
+            'user_id' => Auth::id()
+        ]);
+        
         
     }
 

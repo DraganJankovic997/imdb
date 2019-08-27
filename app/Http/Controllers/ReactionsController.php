@@ -38,31 +38,4 @@ class ReactionsController extends Controller
         ];
         return $reactions;
     }
-
-
-
-    public function reactionsPage($id)
-    {
-        $movie_array = range( ($id-1)*10 + 1, ($id*10) );
-        $final_array = [];
-        $emotes = Emote::all();
-        foreach($movie_array as $movie_id) {
-
-            $emotesNumber = $emotes->map(function ($emote) use ($movie_id) {
-                return Reaction::where([
-                    'movie_id' => $movie_id,
-                    'emote_id' => $emote->id,
-                ])
-                ->select('movie_id', 'e.name', 'e.id as emote_id', DB::raw('count(*) as reaction_count'))
-                ->count();
-            });
-
-            $final_array[] = [
-                'movie_id' => $movie_id,
-                'emotes' => $emotesNumber
-            ];
-        }
-        
-        return $final_array;
-    }
 }

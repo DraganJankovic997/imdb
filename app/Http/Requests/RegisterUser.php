@@ -30,7 +30,7 @@ class RegisterUser extends FormRequest
             'password' => 'required|string|min:6|confirmed'
         ];
     }
-
+    
     protected function failedValidation(Validator $validator) {
         throw new HttpResponseException(response()->json($validator->errors(), 422));
     }
