@@ -24,13 +24,11 @@ class WatchListController extends Controller
                 'user_id' => Auth::id()
             ]);
         }
-        else 
-        {
-            return WatchList::where([
-                ['movie_id', $id],
-                ['user_id', Auth::id()],
-            ])->delete();
-        }
+        return WatchList::where([
+            ['movie_id', $id],
+            ['user_id', Auth::id()],
+        ])->delete();
+        
     }
 
     public function popular()

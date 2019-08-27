@@ -67,12 +67,12 @@ class RegisterController extends Controller
         $val = $this->validator($request);
         if($val->fails()) {
             return $val->messages();
-        } else {
-            return User::create([
-                'name' => request('name'),
-                'email' => request('email'),
-                'password' => Hash::make(request('password')),
-            ]);
         }
+        return User::create([
+            'name' => request('name'),
+            'email' => request('email'),
+            'password' => Hash::make(request('password')),
+        ]);
+        
     }
 }
