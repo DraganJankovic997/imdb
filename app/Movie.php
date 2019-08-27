@@ -31,7 +31,7 @@ class Movie extends Model
                 return $react->emote_id == $e->id;
             }));
         });
-        $this['emotesNumber'] = $list;   
+        $this['emotes'] = $list;   
     }
     public function comments() {
         return $this->hasMany('App\Comment');

@@ -15,9 +15,9 @@ class WatchListController extends Controller
         $temp = WatchList::where([
             ['movie_id', $id],
             ['user_id', Auth::id()],
-        ])->exists();
+        ]);
 
-        if($temp->exists) 
+        if($temp->exists()) 
         {
             return WatchList::where([
                 ['movie_id', $id],
