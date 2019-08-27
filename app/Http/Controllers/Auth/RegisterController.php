@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
+use App\Http\Requests\RegisterUser;
 
 class RegisterController extends Controller
 {
@@ -47,14 +48,14 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
-    protected function validator(Request $request)
-    {
-        return Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6|confirmed',
-        ]);
-    }
+    // protected function validator(Request $request)
+    // {
+    //     return Validator::make($request->all(), [
+    //         'name' => 'required|string|max:255',
+    //         'email' => 'required|string|email|max:255|unique:users',
+    //         'password' => 'required|string|min:6|confirmed',
+    //     ]);
+    // }
 
     /**
      * Create a new user instance after a valid registration.
@@ -62,17 +63,10 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \App\User
      */
-    protected function create(Request $request)
+    protected function create(RegisterUser $request)
     {
-        $val = $this->validator($request);
-        if($val->fails()) {
-            return $val->messages();
-        }
-        return User::create([
-            'name' => request('name'),
-            'email' => request('email'),
-            'password' => Hash::make(request('password')),
-        ]);
-        
+        $val = $request->validated();
+        $val['password'] = bcrypt($val['password']);
+        return User::create($val);
     }
 }

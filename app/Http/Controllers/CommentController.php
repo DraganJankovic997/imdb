@@ -13,17 +13,17 @@ use Illuminate\Support\Facades\Auth;
 class CommentController extends Controller
 {
 
-    public function getComments($id)
+    public function getComments($movie_id)
     {
-        return Movie::findOrFail($id)
+        return Movie::findOrFail($movie_id)
             ->comments()
             ->with('user')
             ->paginate(5);
     }
 
-    public function addComment(CreateComment $request, $id)
+    public function addComment(CreateComment $request, $movie_id)
     {
-        $data = array_merge([ 'user_id' => Auth::id(), 'movie_id' => $id ], $request->validated());
+        $data = array_merge([ 'user_id' => Auth::id(), 'movie_id' => $movie_id ], $request->validated());
         Comment::create($data);
         $data['user'] = Auth::user();
         return $data;

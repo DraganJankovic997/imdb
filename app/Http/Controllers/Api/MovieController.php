@@ -48,7 +48,7 @@ class MovieController extends Controller
         $movie['emotesCount'] = $movie->countEmotes();
         if($movie->didWatch()) {
             $movie['watched'] = true;
-        } else {
+    } else {
             $movie['watched'] = false;
         }
         return $movie;

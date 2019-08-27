@@ -20,12 +20,12 @@ class ReactionsController extends Controller
         );
     }
 
-    public function reactions($id)
+    public function reactions($movie_id)
     {
         $emotes = Emote::all();
-        $emotesNumber = $emotes->map(function ($emote) use ($id) {
+        $emotesNumber = $emotes->map(function ($emote) use ($movie_id) {
             return Reaction::where([
-                'movie_id' => $id,
+                'movie_id' => $movie_id,
                 'emote_id' => $emote->id,
             ])
             ->select('movie_id', 'e.name', 'e.id as emote_id', DB::raw('count(*) as reaction_count'))
@@ -33,7 +33,7 @@ class ReactionsController extends Controller
 
         });
         $reactions = [
-            'movie_id' => $id,
+            'movie_id' => $movie_id,
             'emotes' => $emotesNumber
         ];
         return $reactions;
