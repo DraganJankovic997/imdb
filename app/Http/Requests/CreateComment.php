@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Comment;
 
 class createComment extends FormRequest
 {
@@ -24,7 +25,7 @@ class createComment extends FormRequest
     public function rules()
     {
         return [
-            'content' => 'required|max:500'
+            'content' => 'required|max:500',
         ];
     }
 }

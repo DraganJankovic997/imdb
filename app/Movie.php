@@ -34,8 +34,9 @@ class Movie extends Model
         $this['emotes'] = $list;   
     }
     public function comments() {
-        return $this->hasMany('App\Comment');
+        return $this->morphMany('App\Comment', 'parent');
     }
+
     public function didWatch($user_id){
         return WatchList::where([
             'movie_id' => $this->id , 

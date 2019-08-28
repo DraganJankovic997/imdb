@@ -15,15 +15,11 @@ class CommentMigration extends Migration
     {
         Schema::create('comments', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('movie_id')->unsigned();
+            $table->morphs('parent');
             $table->integer('user_id')->unsigned();
             $table->string('content', 500);
         });
         Schema::table('comments', function(Blueprint $table) {
-            $table->foreign('movie_id')
-            ->references('id')
-            ->on('movies')
-            ->onDelete('cascade');
             $table->foreign('user_id')
             ->references('id')
             ->on('users')
