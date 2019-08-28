@@ -46,10 +46,6 @@ class Movie extends Model
 
     public function checkIfWatched($user_id)
     {
-        if($this->didWatch($user_id)) {
-            $this['watched'] = true;
-        } else {
-            $this['watched'] = false;
-        }
+        return !!$this->didWatch($user_id);
     }
 }

@@ -46,9 +46,9 @@ class WatchListController extends Controller
         return $popular;
     }
 
-    public function related($genre_id) 
+    public function related(Movie $movie) 
     {
-         return Movie::where('genre_id', $genre_id)
+         return Movie::where('genre_id', $movie->genre_id)
             ->take(10)
             ->get();
     }

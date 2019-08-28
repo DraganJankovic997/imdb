@@ -36,4 +36,6 @@ Route::post('/comments/{comment_id}', 'CommentController@addSubComments');
 Route::post('/watched/{id}', 'WatchListController@watched');
 
 Route::get('/popular/movies', 'WatchListController@popular');
-ROute::get('/related/movies/{genre_id}', 'WatchListController@related');
+
+
+Route::get('/movies/{movie}/related', 'WatchListController@related');
