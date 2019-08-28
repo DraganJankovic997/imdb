@@ -32,11 +32,7 @@ class CommentController extends Controller
                             'parent_type' => 'App\Movie']
                             , $request->validated());
         Comment::create($data);
-        return Comment::where([
-            ['parent_id', $movie_id],
-            ['parent_type', 'App\Movie']
-            ])->with('user')
-            ->get();
+        return $this->getAllMovieComments($movie_id);
     }
 
     public function addSubComments(CreateComment $request, $comment_id) {
@@ -45,11 +41,18 @@ class CommentController extends Controller
                             'parent_type' => 'App\Comment']
                             , $request->validated());
         Comment::create($data);
-        return Comment::where([
-            ['parent_id', $comment_id],
-            ['parent_type', 'App\Comment']
-            ])->with('user')
-            ->get();
+        $comment = Comment::findOrFail($comment_id);
+        return $this->getAllMovieComments($comment->parent_id);
     }
 
+    public function getAllMovieComments($movie_id){
+        $movie_comments = Movie::find($movie_id)
+            ->comments()
+            ->with('user')
+            ->get();
+        foreach($movie_comments as $com) {
+            $com['subcomments'] = $com->comments()->with('user')->get();
+        }
+        return $movie_comments;
+    }
 }
