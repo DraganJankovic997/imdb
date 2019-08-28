@@ -24,14 +24,7 @@ class CommentController extends Controller
         }
         return $movie_comments;
     }
-
-    public function getSubComments($comment_id) {
-        return Comment::find($comment_id)
-            ->comments()
-            ->with('user')
-            ->get();
-    }
-
+    
     public function addMovieComment(CreateComment $request, $movie_id)
     {
         $data = array_merge([ 'user_id' => Auth::id(),
