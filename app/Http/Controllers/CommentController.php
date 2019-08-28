@@ -24,9 +24,8 @@ class CommentController extends Controller
     public function addComment(CreateComment $request, $movie_id)
     {
         $data = array_merge([ 'user_id' => Auth::id(), 'movie_id' => $movie_id ], $request->validated());
-        $c = Comment::create($data);
-        $c->load('user');
-        return $c;
+        Comment::create($data);
+        return Comment::where('movie_id', $movie_id)->with('user')->get();
     }
 
 

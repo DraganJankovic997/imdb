@@ -32,9 +32,7 @@ Route::apiResource('movies', 'Api\MovieController');
 Route::get('/comments/movies/{movie_id}', 'CommentController@getComments');
 Route::post('/comments/movies/{movie_id}', 'CommentController@addComment');
 
-// Route::get('/watched/{id}', 'WatchListController@isWatched');
 Route::post('/watched/{id}', 'WatchListController@watched');
-// Route::get('/watchedPage/{id}', 'WatchListController@watchedPage');
 
 Route::get('/popular/movies', 'WatchListController@popular');
 ROute::get('/related/movies/{genre_id}', 'WatchListController@related');
