@@ -25,18 +25,17 @@ Route::group([
 });
 
 Route::post('react', 'ReactionsController@react');
-Route::get('react/{id}', 'ReactionsController@reactions');
-Route::get('reactPage/{id}', 'ReactionsController@reactionsPage');
 
 Route::get('/genres', 'GenreController@getAll');
 Route::apiResource('movies', 'Api\MovieController');
 
-Route::get('/comments/{id}', 'CommentController@getComments');
-Route::post('/comments/{id}', 'CommentController@addComment');
+Route::get('/comments/movies/{movie_id}', 'CommentController@getMovieComments');
+Route::post('/comments/movies/{movie_id}', 'CommentController@addMovieComment');
+Route::post('/comments/{comment_id}', 'CommentController@addSubComments');
 
-Route::get('/watched/{id}', 'WatchListController@isWatched');
 Route::post('/watched/{id}', 'WatchListController@watched');
-Route::get('/watchedPage/{id}', 'WatchListController@watchedPage');
 
-Route::get('/popular', 'WatchListController@popular');
-ROute::get('/related/{id}', 'WatchListController@related');
+Route::get('/popular/movies', 'WatchListController@popular');
+
+
+Route::get('/movies/{movie}/related', 'WatchListController@related');

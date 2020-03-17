@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
+use App\Http\Requests\LoginUser;
 
 class AuthController extends Controller
 {
@@ -24,27 +25,13 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function login(Request $request)
+    public function login(LoginUser $request)
     {
-
-        $validator = Validator::make($request->all(), [
-            'email' => 'required|string|email|max:255',
-            'password' => 'required|string|min:6',
-        ]);
-
-        if($validator->fails()){
-            return back()->withError($validator->messages() . $request->input('user_id'))->withInput();
-        } else {
-            $credentials = request(['email', 'password']);
-
-            if (! $token = auth()->attempt($credentials)) {
-                return response()->json(['error' => 'Unauthorized'], 401);
-            }
-
-            return $this->respondWithToken($token);
+        $credentials = $request->validated();
+        if (! $token = auth()->attempt($credentials)) {
+            return response()->json(['error' => 'Unauthorized'], 401);
         }
-
-        
+        return $this->respondWithToken($token);
     }
 
     /**

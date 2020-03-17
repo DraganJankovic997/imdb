@@ -1,11 +1,11 @@
 <?php
 
 namespace App\Http\Requests;
-
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Foundation\Http\FormRequest;
-use App\Comment;
 
-class createComment extends FormRequest
+class LoginUser extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,7 +25,11 @@ class createComment extends FormRequest
     public function rules()
     {
         return [
-            'content' => 'required|max:500',
+            'email' => 'required|string|email|max:255',
+            'password' => 'required|string|min:6'
         ];
+    }
+    protected function failedValidation(Validator $validator) {
+        throw new HttpResponseException(response()->json($validator->errors(), 422));
     }
 }

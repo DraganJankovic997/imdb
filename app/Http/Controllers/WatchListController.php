@@ -15,22 +15,21 @@ class WatchListController extends Controller
         $temp = WatchList::where([
             ['movie_id', $id],
             ['user_id', Auth::id()],
-        ])->first();
+        ]);
 
-        if($temp == null) 
-        {
-            return WatchList::create([
-                'movie_id' => $id,
-                'user_id' => Auth::id()
-            ]);
-        }
-        else 
+        if($temp->exists()) 
         {
             return WatchList::where([
                 ['movie_id', $id],
                 ['user_id', Auth::id()],
             ])->delete();
         }
+        return WatchList::create([
+            'movie_id' => $id,
+            'user_id' => Auth::id()
+        ]);
+        
+        
     }
 
     public function popular()
@@ -47,9 +46,9 @@ class WatchListController extends Controller
         return $popular;
     }
 
-    public function related($id) 
+    public function related(Movie $movie) 
     {
-         return Movie::where('genre_id', $id)
+         return Movie::where('genre_id', $movie->genre_id)
             ->take(10)
             ->get();
     }

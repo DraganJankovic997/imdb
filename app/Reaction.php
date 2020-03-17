@@ -11,7 +11,7 @@ class Reaction extends Model
 
     protected $primaryKey = 'id';
 
-    public function emote(){
+    public function emotes(){
         return $this->belongsTo('App\Emote');
     }
 }

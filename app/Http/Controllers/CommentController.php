@@ -13,21 +13,46 @@ use Illuminate\Support\Facades\Auth;
 class CommentController extends Controller
 {
 
-    public function getComments($id)
+    public function getMovieComments($movie_id)
     {
-        return Movie::findOrFail($id)
+        $movie_comments = Movie::find($movie_id)
             ->comments()
             ->with('user')
             ->paginate(5);
+        foreach($movie_comments as $com) {
+            $com['subcomments'] = $com->comments()->with('user')->get();
+        }
+        return $movie_comments;
     }
-
-    public function addComment(CreateComment $request, $id)
+    
+    public function addMovieComment(CreateComment $request, $movie_id)
     {
-        $data = array_merge([ 'user_id' => Auth::id(), 'movie_id' => $id ], $request->validated());
+        $data = array_merge([ 'user_id' => Auth::id(),
+                            'parent_id' => $movie_id,
+                            'parent_type' => 'App\Movie']
+                            , $request->validated());
         Comment::create($data);
-        $data['user'] = Auth::user();
-        return $data;
+        return $this->getAllMovieComments($movie_id);
     }
 
+    public function addSubComments(CreateComment $request, $comment_id) {
+        $data = array_merge([ 'user_id' => Auth::id(),
+                            'parent_id' => $comment_id,
+                            'parent_type' => 'App\Comment']
+                            , $request->validated());
+        Comment::create($data);
+        $comment = Comment::findOrFail($comment_id);
+        return $this->getAllMovieComments($comment->parent_id);
+    }
 
+    public function getAllMovieComments($movie_id){
+        $movie_comments = Movie::find($movie_id)
+            ->comments()
+            ->with('user')
+            ->get();
+        foreach($movie_comments as $com) {
+            $com['subcomments'] = $com->comments()->with('user')->get();
+        }
+        return $movie_comments;
+    }
 }

@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Controller;
 use App\Movie;
+use Illuminate\Support\Facades\Auth;
+use App\Emote;
+
 
 
 class MovieController extends Controller
@@ -19,13 +22,10 @@ class MovieController extends Controller
     public function index()
     {
         $movies = Movie::with('genre') -> paginate(10);
+        $emotes = Emote::all();
         foreach($movies as $movie) {
-            $movie['emotesCount'] = $movie->countEmotes();
-            if($movie->didWatch()) {
-                $movie['watched'] = true;
-            } else {
-                $movie['watched'] = false;
-            }
+            $movie->countEmotes($emotes);
+            $movie->checkIfWatched(Auth::id());
         }
         return $movies;
     }
@@ -45,12 +45,9 @@ class MovieController extends Controller
     {
         $movie = Movie::with('genre')->findOrFail($id);
         $movie->increment('views');
-        $movie['emotesCount'] = $movie->countEmotes();
-        if($movie->didWatch()) {
-            $movie['watched'] = true;
-        } else {
-            $movie['watched'] = false;
-        }
+        $emotes = Emote::all();
+        $movie->countEmotes($emotes);
+        $movie->checkIfWatched(Auth::id());
         return $movie;
     }
 
@@ -65,4 +62,6 @@ class MovieController extends Controller
     {
         //
     }
+
+    
 }

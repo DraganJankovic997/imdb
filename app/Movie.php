@@ -3,7 +3,6 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Auth;
 
 class Movie extends Model
 {
@@ -15,26 +14,38 @@ class Movie extends Model
         return $this->belongsTo('App\Genre', 'genre_id', 'id');
     }
 
-    public function emotes()
+    public function reactions()
     {
-        return $this->belongsToMany('App\Emote', 'reactions');
+        return $this->hasMany('App\Reaction');
     }
-    public function countEmotes()
+
+    //izvuces emote::all, izvuces movie->reactions->with(emotes)
+    //uradis emotes->map(vracas [emote_name]=>count(filter(po_emote_name))')
+
+    public function countEmotes($emotes)
     {
-        $counted = [];
-        foreach(Emote::all() as $emote) {
-            $counted[$emote->name] = $emote->countLikes($this->id);
-            // array_push($counted, [ $emote->name => $emote->countLikes($this->id) ]);
-        }
-        return $counted;
+        $reactions = $this->reactions()->get();
+        $list = [];
+        $emotes->map(function ($e) use ($reactions, &$list) {
+            $list[$e->name] = count($reactions->filter(function($react) use ($e) {
+                return $react->emote_id == $e->id;
+            }));
+        });
+        $this['emotes'] = $list;   
     }
     public function comments() {
-        return $this->hasMany('App\Comment');
+        return $this->morphMany('App\Comment', 'parent');
     }
-    public function didWatch(){
-        return WatchList::where('movie_id', $this->id)
-            ->where('user_id', Auth::id())
+
+    public function didWatch($user_id){
+        return WatchList::where([
+            'movie_id' => $this->id , 
+            'user_id' => $user_id ])
             ->first();
     }
 
+    public function checkIfWatched($user_id)
+    {
+        return !!$this->didWatch($user_id);
+    }
 }
